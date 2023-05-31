@@ -1,20 +1,8 @@
-# from pygnuplot import  gnuplot
 import time
-import json
-import argparse
-
-parser = argparse.ArgumentParser()                                               
-parser.add_argument("--file", "-f", type=str, required=True)
-args = parser.parse_args()
-filename = args.file
-
-file = open(filename)
-data = json.load(file)
 
 comparisons = 0
 assignment = 0
 
-start = time.time()
 
 def heapify(arr, n, i):
     largest = i
@@ -40,7 +28,8 @@ def heapify(arr, n, i):
         heapify(arr, n, largest)
     
 
-def heapSort(arr):
+def heapSort(arr, type):
+    start = time.time()
     n = len(arr)
  
     for i in range(n // 2 - 1, -1, -1):
@@ -50,15 +39,12 @@ def heapSort(arr):
         (arr[i], arr[0]) = (arr[0], arr[i]) 
         heapify(arr, i, 0)
 
-arr = data['ascending']
+    end = time.time()
+    total_time = end - start
 
-heapSort(arr)
-
-end = time.time()
-total_time = end - start
-
-print(arr)
-print(comparisons)
-print(assignment)
-print(total_time)
-
+    if type == 'time':
+        return total_time
+    elif type == 'comparisons':
+        return comparisons
+    elif type == 'assignments':
+        return assignment
