@@ -229,3 +229,36 @@ def selection_sort(arr, type):
         return comparisons
     elif type == 'assignments':
         return assignment
+
+
+def shell_sort(arr):
+    start = time.time()
+    n = len(arr)
+    gap = n // 2
+    comparisons = 0
+    assignments = 0
+
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+                comparisons += 1
+                assignments += 1
+
+            arr[j] = temp
+            assignments += 1
+
+        gap //= 2
+    end = time.time()
+    total_time = end - start      
+
+    if type == 'time':
+        return total_time
+    elif type == 'comparisons':
+        return comparisons
+    elif type == 'assignments':
+        return assignment

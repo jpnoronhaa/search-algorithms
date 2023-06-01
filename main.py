@@ -111,7 +111,7 @@ def plotGraph(outputData, graph_type):
         title = 'Gráfico de Quantidade de Atribuições'
         ylabel = 'Atribuições'
 
-    plt.figure()
+    fig = plt.figure(figsize=(10, 6))
     plt.title(title)
     plt.xlabel('Tamanho da Entrada')
     plt.ylabel(ylabel)
