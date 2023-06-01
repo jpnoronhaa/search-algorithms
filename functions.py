@@ -50,7 +50,7 @@ def heap_sort(arr, type):
         return assignment
 
 
-def bubbleSort(arr, type):
+def bubble_sort(arr, type):
     start = time.time()
     size = len(arr)
     comparisons = 0
