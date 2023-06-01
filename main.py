@@ -1,7 +1,7 @@
 import argparse
 import json
 import os
-import heap
+import functions
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -65,9 +65,9 @@ def collectOutputData(inputData, graph_type):
     count = 0
     for input in inputData:
         outputData['labels'].append(labelsArray[count])
-        outputData['ascending'].append(heap.heapSort(input['ascending'], graph_type))
-        outputData['random_order'].append(heap.heapSort(input['random_order'], graph_type))
-        outputData['descending'].append(heap.heapSort(input['descending'], graph_type))
+        outputData['ascending'].append(functions.selection_sort(input['ascending'], graph_type))
+        outputData['random_order'].append(functions.selection_sort(input['random_order'], graph_type))
+        outputData['descending'].append(functions.selection_sort(input['descending'], graph_type))
         count += 1
     return outputData
 
@@ -91,9 +91,9 @@ def plotGraph(outputData, graph_type):
     plt.ylabel(ylabel)
     plt.xticks(range(len(data_frame['labels'])), data_frame['labels'])
 
-    plt.plot(data_frame['ascending'], marker='o', label='Melhor Caso')
-    plt.plot(data_frame['random_order'], marker='o', label='Caso Médio')
-    plt.plot(data_frame['descending'], marker='o', label='Pior Caso')
+    plt.plot(data_frame['ascending'], marker='o', label='Crescente')
+    plt.plot(data_frame['random_order'], marker='o', label='Aleatório')
+    plt.plot(data_frame['descending'], marker='o', label='Decrescente')
 
     plt.legend()
     plt.show()
