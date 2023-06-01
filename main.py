@@ -14,7 +14,7 @@ def get_super(x):
 parser = argparse.ArgumentParser()
 group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument("--flag", "-f", choices=['time', 'comparisons', 'assignments'], help="Graph type")
-parser.add_argument("--function", choices=['selection_sort', 'merge_sort', 'quick_sort', 'cube_sort', 'gnome_sort', 'heap_sort'], help="Sorting function")
+parser.add_argument("--function", choices=['selection_sort', 'merge_sort', 'quick_sort', 'cube_sort', 'gnome_sort', 'heap_sort', 'insertion_sort'], help="Sorting function")
 parser.add_argument("--folder", "-d", type=str, help="Folder path")
 parser.add_argument("--file", nargs='+', help="File path(s)")
 args = parser.parse_args()
@@ -122,7 +122,7 @@ def plotGraph(outputData, graph_type):
     plt.plot(data_frame['descending'], marker='o', label='Decrescente')
 
     plt.legend()
-    plt.show()
+    plt.savefig(f'./graphics/{title} - {sorting_function}')
 
 inputData = collectInputData(folder_path, file_paths)
 outputData = collectOutputData(inputData, graph_type, sorting_function)
