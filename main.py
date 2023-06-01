@@ -13,14 +13,16 @@ def get_super(x):
 
 parser = argparse.ArgumentParser()
 group = parser.add_mutually_exclusive_group(required=True)
-group.add_argument("--type", "-t", choices=['time', 'comparisons', 'assignments'], help="Graph type")
-parser.add_argument("--folder", "-f", type=str, help="Folder path")
+group.add_argument("--flag", "-f", choices=['time', 'comparisons', 'assignments'], help="Graph type")
+parser.add_argument("--function", choices=['selection_sort', 'merge_sort', 'quick_sort', 'cube_sort', 'gnome_sort', 'heap_sort'], help="Sorting function")
+parser.add_argument("--folder", "-d", type=str, help="Folder path")
 parser.add_argument("--file", nargs='+', help="File path(s)")
 args = parser.parse_args()
 
 folder_path = args.folder
 file_paths = args.file
-graph_type = args.type
+graph_type = args.flag
+sorting_function = args.function
 
 def collectInputData(folder_path, file_paths):
     inputData = []
@@ -29,19 +31,17 @@ def collectInputData(folder_path, file_paths):
         file_names = sorted(file_names)
         for filename in file_names:
             file_path = os.path.join(folder_path, filename)
-            # print(filename)
             with open(file_path) as file:
                 data = json.load(file)
                 inputData.append(data)
     elif file_paths:
         for file_path in file_paths:
-            print(file_path)
             with open(file_path) as file:
                 data = json.load(file)
                 inputData.append(data)
     return inputData
 
-def collectOutputData(inputData, graph_type):
+def collectOutputData(inputData, graph_type, sorting_function):
     outputData = {
         "labels": [],
         "ascending": [],
@@ -65,9 +65,23 @@ def collectOutputData(inputData, graph_type):
     count = 0
     for input in inputData:
         outputData['labels'].append(labelsArray[count])
-        outputData['ascending'].append(functions.selection_sort(input['ascending'], graph_type))
-        outputData['random_order'].append(functions.selection_sort(input['random_order'], graph_type))
-        outputData['descending'].append(functions.selection_sort(input['descending'], graph_type))
+        if sorting_function == 'selection_sort':
+            outputData['ascending'].append(functions.selection_sort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.selection_sort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.selection_sort(input['descending'], graph_type))
+        elif sorting_function == 'heap_sort':
+            outputData['ascending'].append(functions.heapSort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.heapSort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.heapSort(input['descending'], graph_type))
+
+        # elif sorting_function == 'merge_sort':
+        #     # Implementação do merge_sort
+        # elif sorting_function == 'quick_sort':
+        #     # Implementação do quick_sort
+        # elif sorting_function == 'cube_sort':
+        #     # Implementação do cube_sort
+        # elif sorting_function == 'gnome_sort':
+        #     # Implementação do gnome_sort
         count += 1
     return outputData
 
@@ -99,5 +113,5 @@ def plotGraph(outputData, graph_type):
     plt.show()
 
 inputData = collectInputData(folder_path, file_paths)
-outputData = collectOutputData(inputData, graph_type)
+outputData = collectOutputData(inputData, graph_type, sorting_function)
 plotGraph(outputData, graph_type)
