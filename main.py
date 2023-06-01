@@ -1,7 +1,8 @@
 import argparse
 import json
+import os
 import heap
-from pygnuplot import  gnuplot
+import matplotlib.pyplot as plt
 import pandas as pd
 
 def get_super(x):
@@ -11,24 +12,36 @@ def get_super(x):
     return x.translate(res)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--type", "-t", choices=['time', 'comparisons', 'assignments'], required=True)
-parser.add_argument("--file", "-f", type=str, required=True, nargs='+')
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument("--type", "-t", choices=['time', 'comparisons', 'assignments'], help="Graph type")
+parser.add_argument("--folder", "-f", type=str, help="Folder path")
+parser.add_argument("--file", nargs='+', help="File path(s)")
 args = parser.parse_args()
 
-files_names = args.file
+folder_path = args.folder
+file_paths = args.file
 graph_type = args.type
 
-def collectInputData(files_names):
+def collectInputData(folder_path, file_paths):
     inputData = []
-    for filename in files_names:
-        file = open(filename)
-        data = json.load(file)
-        inputData.append(data)
+    if folder_path:
+        file_names = os.listdir(folder_path)
+        file_names = sorted(file_names)
+        for filename in file_names:
+            file_path = os.path.join(folder_path, filename)
+            # print(filename)
+            with open(file_path) as file:
+                data = json.load(file)
+                inputData.append(data)
+    elif file_paths:
+        for file_path in file_paths:
+            print(file_path)
+            with open(file_path) as file:
+                data = json.load(file)
+                inputData.append(data)
     return inputData
 
-inputData = collectInputData(files_names)
-
-def collectOutputData(inputData, type):
+def collectOutputData(inputData, graph_type):
     outputData = {
         "labels": [],
         "ascending": [],
@@ -52,42 +65,39 @@ def collectOutputData(inputData, type):
     count = 0
     for input in inputData:
         outputData['labels'].append(labelsArray[count])
-        outputData['ascending'].append(heap.heapSort(input['ascending'], type))
-        outputData['random_order'].append(heap.heapSort(input['random_order'], type))
-        outputData['descending'].append(heap.heapSort(input['descending'], type))
+        outputData['ascending'].append(heap.heapSort(input['ascending'], graph_type))
+        outputData['random_order'].append(heap.heapSort(input['random_order'], graph_type))
+        outputData['descending'].append(heap.heapSort(input['descending'], graph_type))
         count += 1
     return outputData
 
-outputData = collectOutputData(inputData, graph_type)
-
-def plotGraph(outputData, type):
+def plotGraph(outputData, graph_type):
     data_frame = pd.DataFrame(data=outputData)
-    output_filename = '"heap-' + type + '.png"'
-    ylabel = "'"
-    if type == 'time':
-        title = "'Gráfico do Tempo de Execução'"
-        ylabel = "'Tempo (s)'"
-    elif type == 'comparisons':
-        title = "'Gráfico de Quantidade de Comparações'"
-        ylabel = "'Comparações'"
-    elif type == 'assignments':
-        title = "'Gráfico de Quantidade de Atribuições'"
-        ylabel = "'Atribuições'"
 
-    graph = gnuplot.Gnuplot()
+    ylabel = ''
+    if graph_type == 'time':
+        title = 'Gráfico do Tempo de Execução'
+        ylabel = 'Tempo (s)'
+    elif graph_type == 'comparisons':
+        title = 'Gráfico de Quantidade de Comparações'
+        ylabel = 'Comparações'
+    elif graph_type == 'assignments':
+        title = 'Gráfico de Quantidade de Atribuições'
+        ylabel = 'Atribuições'
 
-    graph.set(terminal = 'pngcairo', output = output_filename, title = title, ylabel = ylabel, xlabel = "'Tamanho da Entrada'")
-    graph.set(style="line 1 lc rgb '#ff0000' lt 1 lw 2 pt 7 pi -1 ps 1.125")
-    graph.set(style="line 2 lc rgb '#00ff00' lt 2 lw 2 pt 7 pi -1 ps 1.125")
-    graph.set(style="line 3 lc rgb '#0000ff' lt 3 lw 2 pt 7 pi -1 ps 1.125")
-    graph.set(ytics=' 0.5')
+    plt.figure()
+    plt.title(title)
+    plt.xlabel('Tamanho da Entrada')
+    plt.ylabel(ylabel)
+    plt.xticks(range(len(data_frame['labels'])), data_frame['labels'])
 
+    plt.plot(data_frame['ascending'], marker='o', label='Melhor Caso')
+    plt.plot(data_frame['random_order'], marker='o', label='Caso Médio')
+    plt.plot(data_frame['descending'], marker='o', label='Pior Caso')
 
+    plt.legend()
+    plt.show()
 
-    graph.set(pointintervalbox='3')
-    print(data_frame)
-    graph.plot_data(data_frame, "u 3:xtic(2) title 'Melhor Caso' with linespoints ls 1",
-                    "u 4:xtic(2) title 'Caso Médio' with linespoints ls 2",
-                    "u 5:xtic(2) title 'Pior Caso' with linespoints ls 3")
-
+inputData = collectInputData(folder_path, file_paths)
+outputData = collectOutputData(inputData, graph_type)
 plotGraph(outputData, graph_type)
