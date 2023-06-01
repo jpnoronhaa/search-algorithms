@@ -65,23 +65,35 @@ def collectOutputData(inputData, graph_type, sorting_function):
     count = 0
     for input in inputData:
         outputData['labels'].append(labelsArray[count])
+
         if sorting_function == 'selection_sort':
             outputData['ascending'].append(functions.selection_sort(input['ascending'], graph_type))
             outputData['random_order'].append(functions.selection_sort(input['random_order'], graph_type))
             outputData['descending'].append(functions.selection_sort(input['descending'], graph_type))
         elif sorting_function == 'heap_sort':
-            outputData['ascending'].append(functions.heapSort(input['ascending'], graph_type))
-            outputData['random_order'].append(functions.heapSort(input['random_order'], graph_type))
-            outputData['descending'].append(functions.heapSort(input['descending'], graph_type))
-
-        # elif sorting_function == 'merge_sort':
-        #     # Implementação do merge_sort
-        # elif sorting_function == 'quick_sort':
-        #     # Implementação do quick_sort
-        # elif sorting_function == 'cube_sort':
-        #     # Implementação do cube_sort
-        # elif sorting_function == 'gnome_sort':
-        #     # Implementação do gnome_sort
+            outputData['ascending'].append(functions.heap_sort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.heap_sort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.heap_sort(input['descending'], graph_type))
+        elif sorting_function == 'bubble_sort':
+            outputData['ascending'].append(functions.bubble_sort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.bubble_sort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.bubble_sort(input['descending'], graph_type))
+        elif sorting_function == 'insertion_sort':
+            outputData['ascending'].append(functions.insertion_sort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.insertion_sort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.insertion_sort(input['descending'], graph_type))
+        elif sorting_function == 'merge_sort':
+            outputData['ascending'].append(functions.merge_sort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.merge_sort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.merge_sort(input['descending'], graph_type))
+        elif sorting_function == 'quick_sort':
+            outputData['ascending'].append(functions.quick_sort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.quick_sort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.quick_sort(input['descending'], graph_type))
+        elif sorting_function == 'gnome_sort':
+            outputData['ascending'].append(functions.gnome_sort(input['ascending'], graph_type))
+            outputData['random_order'].append(functions.gnome_sort(input['random_order'], graph_type))
+            outputData['descending'].append(functions.gnome_sort(input['descending'], graph_type))
         count += 1
     return outputData
 

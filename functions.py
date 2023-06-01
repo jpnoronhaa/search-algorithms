@@ -28,7 +28,7 @@ def heapify(arr, n, i):
         heapify(arr, n, largest)
     
 
-def heapSort(arr, type):
+def heap_sort(arr, type):
     start = time.time()
     n = len(arr)
  
