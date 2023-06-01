@@ -33,7 +33,7 @@ Os seguintes algoritmos de ordenação foram implementados neste projeto:
 
 5. Execute o script da seguinte maneira:
 <pre>
->> python main.py --flag (time,comparisons,assignments) --folder NOME_DA_PASTA
+>> python main.py --flag (time,comparisons,assignments) --function bubble_sort --folder NOME_DA_PASTA
 </pre>
 
 
