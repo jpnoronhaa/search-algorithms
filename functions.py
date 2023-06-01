@@ -111,8 +111,8 @@ def merge_sort(arr , type):
         left_half = arr[:mid]
         right_half = arr[mid:]
         
-        comparisons += merge_sort(left_half)
-        comparisons += merge_sort(right_half)
+        comparisons += merge_sort(left_half, type)
+        comparisons += merge_sort(right_half, type)
         
         i = j = k = 0
         
@@ -163,8 +163,8 @@ def quick_sort(arr, type):
     comparisons += len(arr) - 1
     assignments += len(arr)
     
-    comparisons += quick_sort(smaller)
-    comparisons += quick_sort(greater)
+    comparisons += quick_sort(smaller, type)
+    comparisons += quick_sort(greater, type)
     
     arr[:] = smaller + equal + greater
     

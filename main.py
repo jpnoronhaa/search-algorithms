@@ -99,7 +99,7 @@ def collectOutputData(inputData, graph_type, sorting_function):
 
 def plotGraph(outputData, graph_type):
     data_frame = pd.DataFrame(data=outputData)
-
+    print(outputData)
     ylabel = ''
     if graph_type == 'time':
         title = 'Gráfico do Tempo de Execução'
@@ -117,9 +117,10 @@ def plotGraph(outputData, graph_type):
     plt.ylabel(ylabel)
     plt.xticks(range(len(data_frame['labels'])), data_frame['labels'])
 
-    plt.plot(data_frame['ascending'], marker='o', label='Crescente')
-    plt.plot(data_frame['random_order'], marker='o', label='Aleatório')
-    plt.plot(data_frame['descending'], marker='o', label='Decrescente')
+    plt.plot(data_frame['ascending'], linewidth=2, marker='o', label='Crescente')
+    plt.plot(data_frame['random_order'],linewidth=2, marker='o', label='Aleatório')
+    plt.plot(data_frame['descending'],linewidth=2, marker='o', label='Decrescente')
+    plt.ticklabel_format(style='plain', axis='y')
 
     plt.legend()
     plt.savefig(f'./graphics/{title} - {sorting_function}')
