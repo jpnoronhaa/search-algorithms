@@ -123,6 +123,14 @@ def plotGraph(outputData, graph_type):
     plt.ticklabel_format(style='plain', axis='y')
 
     plt.legend()
+
+    #Garantir a criação da pasta
+    try:
+        os.makedirs("graphics")
+        print("A pasta foi criada com sucesso.")
+    except FileExistsError:
+        print("A pasta já existe.")
+
     plt.savefig(f'./graphics/{title} - {sorting_function}')
 
 inputData = collectInputData(folder_path, file_paths)
