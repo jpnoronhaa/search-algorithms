@@ -13,6 +13,7 @@ Os seguintes algoritmos de ordenação foram implementados neste projeto:
 - Heap Sort
 - Gnome Sort
 - Selection Sort
+- Shell Sort
 
 ### Funcionalidades
 
@@ -36,6 +37,11 @@ Os seguintes algoritmos de ordenação foram implementados neste projeto:
 >> python main.py --flag (time,comparisons,assignments) --function bubble_sort --folder NOME_DA_PASTA
 </pre>
 
+### Bibliotecas usadas
+- matplotlib
+### Autores
 
-
-
+- Mateus Araujo Dias 
+- João Pedro Noronha de Moraes Souza 
+- Bruno Ferreira da Silva 
+- Gabriel Borges Araújo 
